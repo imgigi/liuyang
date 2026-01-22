@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘洋 Liu Yang - 作品集</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #888888;
+            --background-color: #000000;
+            --text-color: #e0e0e0;
+            --accent-color: #ffffff;
+            --light-grey: #1a1a1a;
+            --medium-grey: #2a2a2a;
+            --border-color: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft YaHei", sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            cursor: none;
+        }
+
+        /* 自定义光标 */
+        #cursor-dot, #cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            mix-blend-mode: difference;
+        }
+        
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            transition: transform 0.2s ease;
+        }
+        
+        #cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, border-color 0.2s;
+        }
+        
+        body.hovering #cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 星星背景 */
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        header, section, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 60px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 18px 60px;
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            letter-spacing: 0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        nav > a, .dropdown > a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: none;
+        }
+
+        nav > a:hover, .dropdown > a:hover {
+            color: var(--primary-color);
+        }
+
+        .resume-btn {
+            padding: 10px 24px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            cursor: none;
+        }
+
+        .resume-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: block;
+            padding: 10px 0;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 15px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            min-width: 220px;
+            padding: 12px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+            animation: dropdownFadeIn 0.3s ease forwards;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .dropdown::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            height: 15px;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 24px;
+            margin: 0;
+            font-size: 13px;
+            color: var(--secondary-color);
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--light-grey);
+            color: var(--primary-color);
+            padding-left: 30px;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 120px 60px 60px;
+        }
+
+        .hero-content {
+            text-align: center;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .hero-content p.subtitle {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0.4;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .name-container {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .name-chinese {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(120px, 20vw, 280px);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            line-height: 1;
+            color: rgba(255, 255, 255, 0.05);
+            margin-bottom: -80px;
+        }
+
+        .name-english {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(60px, 10vw, 120px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            color: var(--primary-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-description {
+            width: 80%;
+            max-width: 1000px;
+            margin: 0 auto;
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--secondary-color);
+            font-weight: 400;
+            text-align: left;
+        }
+
+        .hero-description p {
+            margin-bottom: 16px;
+        }
+
+        .hero-description .highlight {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .section {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 100px 60px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 60px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header .left {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .section-header .right {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -1px;
+        }
+
+        .about-content {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--secondary-color);
+            font-weight: 400;
+            margin-bottom: 60px;
+            max-width: 900px;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+        }
+
+        .about-content strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .about-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .about-content a:hover {
+            border-bottom-color: var(--primary-color);
+        }
+
+        .timeline-horizontal {
+            position: relative;
+            padding: 60px 0;
+            overflow-x: auto;
+            overflow-y: visible;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-color) var(--background-color);
+        }
+
+        .timeline-horizontal::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .timeline-horizontal::-webkit-scrollbar-track {
+            background: var(--background-color);
+            border-radius: 3px;
+        }
+
+        .timeline-horizontal::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .timeline-track {
+            position: relative;
+            display: flex;
+            gap: 60px;
+            min-width: min-content;
+            padding-bottom: 20px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color) 10%, var(--border-color) 90%, transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            min-width: 320px;
+            padding-top: 50px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border: 3px solid var(--background-color);
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px var(--border-color);
+            z-index: 2;
+        }
+
+        .timeline-card {
+            background: var(--light-grey);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .timeline-card:hover {
+            background: var(--medium-grey);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .timeline-date {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-subtitle {
+            font-size: 13px;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .timeline-desc {
+            font-size: 13px;
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        .cv-download-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 14px 36px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: none;
+        }
+
+        .cv-download-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .category-wrapper {
+            margin-bottom: 100px;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .category-header h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+        }
+
+        .category-header span {
+            font-size: 11px;
+            color: var(--secondary-color);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .project-carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 24px;
+            padding-bottom: 20px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-color) var(--background-color);
+        }
+
+        .project-carousel::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .project-carousel::-webkit-scrollbar-track {
+            background: var(--background-color);
+            border-radius: 3px;
+        }
+
+        .project-carousel::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .project-card {
+            flex: 0 0 380px;
+            background: var(--light-grey);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            scroll-snap-align: start;
+            transition: all 0.4s ease;
+            cursor: none;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .project-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .project-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            padding: 20px;
+        }
+
+        .project-info h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+        }
+
+        .project-info p {
+            font-size: 12px;
+            color: var(--secondary-color);
+            letter-spacing: 0.05em;
+        }
+
+        .simple-card {
+            flex: 0 0 380px;
+            background: var(--light-grey);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            scroll-snap-align: start;
+            transition: all 0.4s ease;
+            cursor: none;
+            height: 240px;
+        }
+
+        .simple-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .simple-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .simple-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .stacked-card {
+            position: relative;
+            background: var(--light-grey);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            cursor: none;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stacked-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .stack-layer {
+            position: absolute;
+            width: calc(100% - 40px);
+            height: calc(100% - 40px);
+            border-radius: 8px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+            filter: brightness(0.4);
+        }
+
+        .stack-layer:nth-child(1) {
+            transform: translate(-20px, -20px);
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .stack-layer:nth-child(2) {
+            transform: translate(-10px, -10px);
+            z-index: 2;
+            opacity: 0.5;
+        }
+
+        .stack-layer:nth-child(3) {
+            transform: translate(0, 0);
+            z-index: 3;
+            opacity: 0.8;
+        }
+
+        .stacked-card:hover .stack-layer:nth-child(1) {
+            transform: translate(-24px, -24px);
+        }
+
+        .stacked-card:hover .stack-layer:nth-child(2) {
+            transform: translate(-12px, -12px);
+        }
+
+        .stacked-card:hover .stack-layer:nth-child(3) {
+            transform: translate(0, 0);
+            filter: brightness(1);
+        }
+
+        .stack-label {
+            position: absolute;
+            z-index: 4;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 0.05em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .stacked-card:hover .stack-label {
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 1200px;
+            max-height: 80vh;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--border-color);
+            transform: scale(0.95);
+            transition: transform 0.4s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .video-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .video-loading img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0.5;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .modal-content video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+            position: relative;
+            z-index: 1;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .close-btn:hover {
+            background: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        .close-btn::before,
+        .close-btn::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 2px;
+            background: white;
+            transition: background 0.3s ease;
+        }
+
+        .close-btn:hover::before,
+        .close-btn:hover::after {
+            background: #000;
+        }
+
+        .close-btn::before {
+            transform: rotate(45deg);
+        }
+
+        .close-btn::after {
+            transform: rotate(-45deg);
+        }
+
+        .grid-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            overflow-y: auto;
+        }
+
+        .grid-modal.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .grid-modal-content {
+            max-width: 1600px;
+            margin: 120px auto 60px;
+            padding: 0 60px;
+        }
+
+        .grid-modal-title {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 60px;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .grid-item {
+            background: var(--light-grey);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: none;
+            aspect-ratio: 4/3;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1024px) {
+            header {
+                padding: 18px 30px;
+            }
+
+            .section {
+                padding: 80px 30px;
+            }
+
+            .hero-description {
+                width: 90%;
+            }
+
+            .project-card,
+            .simple-card {
+                flex: 0 0 340px;
+            }
+
+            .timeline-item {
+                min-width: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero-section {
+                padding: 100px 20px 40px;
+            }
+
+            .name-chinese {
+                font-size: clamp(80px, 18vw, 120px);
+                margin-bottom: -40px;
+            }
+
+            .name-english {
+                font-size: clamp(40px, 8vw, 60px);
+            }
+
+            .hero-description {
+                width: 95%;
+                font-size: 14px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .project-grid,
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .project-card,
+            .simple-card {
+                flex: 0 0 280px;
+            }
+
+            .grid-modal-content {
+                padding: 0 20px;
+                margin-top: 100px;
+            }
+
+            .timeline-item {
+                min-width: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 星星背景画布 -->
+    <canvas id="stars-canvas"></canvas>
+
+    <!-- 自定义光标 -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="logo">刘洋 Liu Yang</div>
+        <nav>
+            <a href="#home">首页</a>
+            <a href="#about">关于我</a>
+            <div class="dropdown">
+                <a href="#portfolio" class="dropdown-trigger">作品集</a>
+                <div class="dropdown-content">
+                    <a href="#competition">比赛成片</a>
+                    <a href="#commercial">商业合作</a>
+                    <a href="#wedding">婚礼拍摄</a>
+                    <a href="#daily">日常视频</a>
+                    <a href="#photo">图片作品</a>
+                </div>
+            </div>
+            <a href="mailto:546331364@qq.com">联系我</a>
+            <a href="assets/liuyang.CV.pdf" download class="resume-btn">下载简历</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="hero-section reveal">
+        <div class="hero-content">
+            <p class="subtitle">Visual Artist</p>
+            <div class="name-container">
+                <div class="name-chinese">刘洋</div>
+                <div class="name-english">LIU YANG</div>
+            </div>
+            <div class="hero-description">
+                <p><span class="highlight">熟练使用达芬奇、FCP、PR、Photoshop和Lightroom</span>等专业软件,可以独立完成<span class="highlight">剪辑、调色和设计</span>工作,具备从策划到交付的<span class="highlight">全流程执行能力</span>,掌握室内外多机位直播方案的搭建与执行。</p>
+                <p>上进心强,注重逻辑与效率,善于沟通,能够快速理解并执行团队的创意与需求。</p>
+                <p>凭借对<span class="highlight">影像艺术的热爱</span>与持续学习的精神,积累了丰富的实战经验,渴望在更专业的平台上继续学习与成长,为团队贡献自己的创意与技能。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me -->
+    <section id="about" class="section reveal">
+        <div class="section-header">
+            <div class="left">Resume / Experience</div>
+            <div class="right">关于我</div>
+        </div>
+        
+        <div class="about-content">
+            <p><strong>教育背景:</strong>湖北经济学院 · 电子信息工程(本科) · 2022.9 - 至今</p>
+            <p><strong>当前职位:</strong>漫格电影工作室 · 总监档摄影师 · 2025 - 至今</p>
+            <p><strong>核心技能:</strong>达芬奇 · FCP · Premiere Pro · Photoshop · Lightroom · 导演 · 摄影 · 剪辑 · 调色 · 多机位直播</p>
+            <p><strong>联系方式:</strong>电话 17786106703 · 邮箱 <a href="mailto:546331364@qq.com">546331364@qq.com</a></p>
+        </div>
+
+        <h3 style="font-size: 22px; color: var(--primary-color); margin-bottom: 40px; font-weight: 600;">工作经历</h3>
+        
+        <div class="timeline-horizontal">
+            <div class="timeline-line"></div>
+            <div class="timeline-track">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-date">2025 - 至今</div>
+                        <div class="timeline-title">漫格电影工作室</div>
+                        <div class="timeline-subtitle">总监档摄影师</div>
+                        <div class="timeline-desc">对接湖滨客舍、东湖宾馆、洪山宾馆等一线酒店婚礼拍摄需求,提供从创意策划到成品交付的一站式影像服务,精准捕捉品牌调性,作品获客户高度认可与复购。</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-date">2025.8 - 2025.9</div>
+                        <div class="timeline-title">湖北文旅集团宜昌集团</div>
+                        <div class="timeline-subtitle">视频导演</div>
+                        <div class="timeline-desc">全权负责集团宣传片的创意策划、脚本撰写、现场拍摄与后期剪辑,深入挖掘宜昌文旅资源特色,作品通过内部多层评审,在总部官网、公众号等全平台发布。</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-date">2024.7 - 2024.8</div>
+                        <div class="timeline-title">人民日报·数字湖北</div>
+                        <div class="timeline-subtitle">视频组干事</div>
+                        <div class="timeline-desc">协助抖音号、公众号日常运营,负责视频选题策划与拍摄制作。</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-date">2024.5 - 2024.6</div>
+                        <div class="timeline-title">上汽大众</div>
+                        <div class="timeline-subtitle">"40年40城"湖北地区导演</div>
+                        <div class="timeline-desc">主导品牌40周年宣传片黄石篇、荆州篇制作,深入调研两地人文风貌与工业特色,打造差异化视觉内容,通过镜头语言传递品牌历史积淀与创新精神。</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-date">2024.1 - 2024.3</div>
+                        <div class="timeline-title">阿曼朵民族旅拍</div>
+                        <div class="timeline-subtitle">主拍摄影师</div>
+                        <div class="timeline-desc">担任福州门店主拍,聚焦畲族等民族特色旅拍风格,结合当地自然风光与民俗文化设计拍摄方案,作品长期位居平台旅拍类榜单前列,带动门店客单量提升。</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-date">2022.5 - 2022.6</div>
+                        <div class="timeline-title">东风猛士</div>
+                        <div class="timeline-subtitle">湖北地区导演</div>
+                        <div class="timeline-desc">独立完成湖北地区宣传片全流程制作,结合品牌硬核属性与地域文化特点,运用多场景航拍、特写镜头组合呈现产品优势,成片获品牌方高度认可。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="assets/liuyang.CV.pdf" download class="cv-download-btn">下载完整简历</a>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="section reveal">
+        <div class="section-header">
+            <div class="left">Selected Works</div>
+            <div class="right">作品集</div>
+        </div>
+
+        <!-- 比赛成片 -->
+        <div id="competition" class="category-wrapper">
+            <div class="category-header">
+                <h2>比赛成片</h2>
+                <span>Competition</span>
+            </div>
+            <div class="project-carousel" id="competition-carousel"></div>
+        </div>
+
+        <!-- 商业合作 -->
+        <div id="commercial" class="category-wrapper">
+            <div class="category-header">
+                <h2>商业合作</h2>
+                <span>Commercial</span>
+            </div>
+            <div class="project-carousel" id="commercial-carousel"></div>
+        </div>
+
+        <!-- 婚礼拍摄 -->
+        <div id="wedding" class="category-wrapper">
+            <div class="category-header">
+                <h2>婚礼拍摄</h2>
+                <span>Wedding</span>
+            </div>
+            <div class="project-carousel" id="wedding-carousel"></div>
+        </div>
+
+        <!-- 日常视频 -->
+        <div id="daily" class="category-wrapper">
+            <div class="category-header">
+                <h2>日常视频作品</h2>
+                <span>Daily Videos</span>
+            </div>
+            <div class="project-carousel" id="daily-carousel"></div>
+        </div>
+
+        <!-- 图片作品 -->
+        <div id="photo" class="category-wrapper">
+            <div class="category-header">
+                <h2>图片作品</h2>
+                <span>Photography</span>
+            </div>
+            <div class="project-grid">
+                <div class="stacked-card" onclick="openPhotoGrid()">
+                    <img src="https://i.postimg.cc/9MYtsVct/photo1.jpg" class="stack-layer" alt="照片 1">
+                    <img src="https://i.postimg.cc/8P0d2ZVQ/photo2.jpg" class="stack-layer" alt="照片 2">
+                    <img src="https://i.postimg.cc/dt1mNzpB/photo3.jpg" class="stack-layer" alt="照片 3">
+                    <div class="stack-label">图片作品集</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal" onclick="handleModalClick(event)">
+        <div class="close-btn" onclick="closeVideoModal(); event.stopPropagation();"></div>
+        <div class="modal-content" id="videoModalContent" onclick="event.stopPropagation();"></div>
+    </div>
+
+    <!-- Photo Grid Modal -->
+    <div id="photoGridModal" class="grid-modal" onclick="handleGridModalClick(event)">
+        <div class="close-btn" onclick="closePhotoGrid(); event.stopPropagation();"></div>
+        <div class="grid-modal-content" onclick="event.stopPropagation();">
+            <h2 class="grid-modal-title">图片作品集</h2>
+            <div class="grid-container" id="photoGridContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // ========== 星星背景动画 ==========
+        const canvas = document.getElementById('stars-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let stars = [];
+        let mouseX = 0;
+        let mouseY = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.documentElement.scrollHeight;
+        }
+
+        function createStars() {
+            stars = [];
+            const numStars = Math.floor((canvas.width * canvas.height) / 8000);
+            
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.2,
+                    vy: (Math.random() - 0.5) * 0.2,
+                    opacity: Math.random() * 0.5 + 0.3
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            stars.forEach(star => {
+                const dx = mouseX - star.x;
+                const dy = mouseY - star.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const maxDistance = 150;
+                
+                if (distance < maxDistance) {
+                    const force = (maxDistance - distance) / maxDistance;
+                    star.x -= (dx / distance) * force * 2;
+                    star.y -= (dy / distance) * force * 2;
+                }
+                
+                star.x += star.vx;
+                star.y += star.vy;
+                
+                if (star.x < 0 || star.x > canvas.width) star.vx *= -1;
+                if (star.y < 0 || star.y > canvas.height) star.vy *= -1;
+                
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.fill();
+                
+                stars.forEach(otherStar => {
+                    const dx = star.x - otherStar.x;
+                    const dy = star.y - otherStar.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(star.x, star.y);
+                        ctx.lineTo(otherStar.x, otherStar.y);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            requestAnimationFrame(drawStars);
+        }
+
+        // ========== 自定义光标 ==========
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        
+        let cursorX = 0;
+        let cursorY = 0;
+        let outlineX = 0;
+        let outlineY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+            mouseX = e.clientX;
+            mouseY = e.clientY + window.scrollY;
+        });
+
+        const interactables = document.querySelectorAll('a, button, .project-card, .simple-card, .stacked-card, .grid-item, .close-btn');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        function animateCursor() {
+            cursorDot.style.left = `${cursorX}px`;
+            cursorDot.style.top = `${cursorY}px`;
+
+            outlineX += (cursorX - outlineX) * 0.15;
+            outlineY += (cursorY - outlineY) * 0.15;
+            
+            cursorOutline.style.left = `${outlineX}px`;
+            cursorOutline.style.top = `${outlineY}px`;
+
+            requestAnimationFrame(animateCursor);
+        }
+
+        // ========== 项目数据(全部使用外链) ==========
+        const projectData = {
+            competition: [
+                {
+                    title: '萝卜快跑',
+                    tag: '2025金飞燕海峡两岸创作营第一名',
+                    thumbnail: 'https://i.postimg.cc/xjWpHjc2/feng-mian1.png',
+                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/1%E8%90%9D%E5%8D%9C%E5%BF%AB%E8%B7%91%E8%B7%91.mp4'
+                },
+                {
+                    title: '宇树机器人',
+                    tag: '2025金飞燕海峡两岸创作营第一名',
+                    thumbnail: 'https://i.postimg.cc/1RL76Rfq/feng-mian2.png',
+                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/2%E5%AE%87%E6%A0%91%E6%9C%BA%E5%99%A8%E4%BA%BA.mp4'
+                },
+                {
+                    title: '声音',
+                    tag: '2025校形象宣传片',
+                    thumbnail: 'https://i.postimg.cc/rFxn96rD/feng-mian3.png',
+                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/3%E5%A3%B0%E9%9F%B34k60.mp4'
+                },
+                {
+                    title: '托举',
+                    tag: '2025金飞燕微电影铜飞燕奖',
+                    thumbnail: 'https://i.postimg.cc/BQHYCWKX/feng-mian4.png',
+                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/4%E6%89%98%E4%B8%BE4k60%E6%88%90%E7%89%87.mp4'
+                },
+                {
+                    title: '视界之外',
+                    tag: '金飞燕海峡两岸微电影大赛入围',
+                    thumbnail: 'https://i.postimg.cc/HsXZtGyj/feng-mian5.png',
+                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/5%E8%A7%86%E7%95%8C%E4%B9%8B%E5%A4%96.mp4'
+                }
+            ],
+            commercial: [
+                { thumbnail: 'https://i.postimg.cc/KvBq5XMt/feng-mian6.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/6%E9%BE%99%E8%88%9F4K%E8%B6%85%E6%B8%85.mp4' },
+                { thumbnail: 'https://i.postimg.cc/4xG8L86b/feng-mian7.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%B4%BB%E5%8A%A81-%E5%AE%9C%E6%98%8C4k.mov' },
+                { thumbnail: 'https://i.postimg.cc/sgzn6nPF/feng-mian8.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%B4%BB%E5%8A%A82-%E5%AE%9C%E6%98%8CAAAAA.mov' },
+                { thumbnail: 'https://i.postimg.cc/13SWCW0m/feng-mian9.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%B4%BB%E5%8A%A83-154_1768302727.mp4' },
+                { thumbnail: 'https://i.postimg.cc/4x1Wrzwg/feng-mian10.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%B4%BB%E5%8A%A84-%E6%B4%BB%E5%8A%A8%E5%89%AA%E8%BE%911.mp4' },
+                { thumbnail: 'https://i.postimg.cc/y8TLwFn8/feng-mian11.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%B4%BB%E5%8A%A85-ps5%E8%B7%AF%E6%BC%94%E6%AD%A6%E6%B1%89%E6%AD%A6%E5%95%86%E6%A2%A6%E6%97%B6%E4%BB%A3.m4v' }
+            ],
+            wedding: [
+                { thumbnail: 'https://i.postimg.cc/y8TLwFnZ/feng-mian12.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC1-2025.10.6%E6%B4%AA%E6%B9%96%E9%87%91%E6%B9%BE%20%E6%AD%A3%E7%89%87.mov' },
+                { thumbnail: 'https://i.postimg.cc/7ZNKpgX3/feng-mian13.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC3-2025.10.6%E5%A9%9A%E7%A4%BC%E9%A2%84%E5%91%8A.mp4' },
+                { thumbnail: 'https://i.postimg.cc/s2DTyv0m/feng-mian14.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC4-%E6%A5%9A%E5%A4%A9%E7%B2%A4%E6%B5%B7.mp4' },
+                { thumbnail: 'https://i.postimg.cc/QMxfsHnY/feng-mian15.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC5-IMG_5109.mp4' },
+                { thumbnail: 'https://i.postimg.cc/mr2mRt6v/feng-mian16.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC5-IMG_5109.mp4' }
+            ],
+            daily: [
+                { thumbnail: 'https://i.postimg.cc/FKWDKN22/feng-mian17.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B81-1%E6%9C%8813%E6%97%A5.mov' },
+                { thumbnail: 'https://i.postimg.cc/fb2BbDGJ/feng-mian18.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B82-1%E6%9C%8813%E6%97%A5%281%29.mov' },
+                { thumbnail: 'https://i.postimg.cc/YSnbSM52/feng-mian19.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B83-1%E6%9C%8813%E6%97%A5%282%29.mov' },
+                { thumbnail: 'https://i.postimg.cc/QtFS9vDs/feng-mian20.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B84-1%E6%9C%8813%E6%97%A5%283%29.mov' },
+                { thumbnail: 'https://i.postimg.cc/nzXTjNxF/feng-mian21.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B85-3%E6%9C%884%E6%97%A5%283%29.mp4' },
+                { thumbnail: 'https://i.postimg.cc/qRNQhWr6/feng-mian22.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B86-6%E6%9C%8818%E6%97%A5.mp4' },
+                { thumbnail: 'https://i.postimg.cc/261TbgYw/feng-mian23.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B87-7%E6%9C%8831%E6%97%A5%281%29.mp4' },
+                { thumbnail: 'https://i.postimg.cc/Zn3cj30Q/feng-mian24.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B88-%E6%88%90%E7%89%874K30%E7%A7%92.mp4' },
+                { thumbnail: 'https://i.postimg.cc/JnSxbK75/feng-mian25.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B89-%E6%94%B9%E5%8D%81.mp4' },
+                { thumbnail: 'https://i.postimg.cc/4djPzwNZ/feng-mian26.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B810-%E7%BB%8F%E5%B9%A1%E9%A2%84%E5%91%8A.mp4' },
+                { thumbnail: 'https://i.postimg.cc/85x4hwPg/feng-mian27.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B811-%E9%BE%99%E8%88%9F1.mp4' }
+            ]
+        };
+
+        // 图片数据(124张,按数字顺序)
+        const photoUrls = [
+            'https://i.postimg.cc/9MYtsVct/photo1.jpg', 'https://i.postimg.cc/8P0d2ZVQ/photo2.jpg', 'https://i.postimg.cc/dt1mNzpB/photo3.jpg',
+            'https://i.postimg.cc/HnS0s2cj/photo4.jpg', 'https://i.postimg.cc/dt1mNzp8/photo5.jpg', 'https://i.postimg.cc/sDNPkTCZ/photo6.jpg',
+            'https://i.postimg.cc/65mVkMxM/photo7.jpg', 'https://i.postimg.cc/Vk09mXYz/photo8.jpg', 'https://i.postimg.cc/TP8Vwhw1/photo9.jpg',
+            'https://i.postimg.cc/yNFFSBgt/photo10.jpg', 'https://i.postimg.cc/TPrrWGLz/photo11.jpg', 'https://i.postimg.cc/s2ppZyGR/photo12.jpg',
+            'https://i.postimg.cc/Xvwwy3GD/photo13.jpg', 'https://i.postimg.cc/NMBR6VRw/photo14.jpg', 'https://i.postimg.cc/26Gh2wxQ/photo15.jpg',
+            'https://i.postimg.cc/854MtHbZ/photo16.jpg', 'https://i.postimg.cc/j5cPZXhv/photo17.jpg', 'https://i.postimg.cc/63cnY0hj/photo18.jpg',
+            'https://i.postimg.cc/XJLdQ8gt/photo19.jpg', 'https://i.postimg.cc/x8dH7zsp/photo20.jpg', 'https://i.postimg.cc/nrL75Dd6/photo21.jpg',
+            'https://i.postimg.cc/brvbMtCP/photo22.jpg', 'https://i.postimg.cc/Y0ygwCZv/photo23.jpg', 'https://i.postimg.cc/L50fM8ws/photo24.jpg',
+            'https://i.postimg.cc/pV0Kjsrt/photo25.jpg', 'https://i.postimg.cc/05t7SVjM/photo26.jpg', 'https://i.postimg.cc/ZK237068/photo27.jpg',
+            'https://i.postimg.cc/pXpzJK5J/photo28.jpg', 'https://i.postimg.cc/PrPYQ1vm/photo29.jpg', 'https://i.postimg.cc/rFKxN5RQ/photo30.jpg',
+            'https://i.postimg.cc/bNWbCd1R/photo31.jpg', 'https://i.postimg.cc/xThHxqL5/photo32.jpg', 'https://i.postimg.cc/J4vJ6tj6/photo33.jpg',
+            'https://i.postimg.cc/TYFm7hn4/photo34.jpg', 'https://i.postimg.cc/8P9WKsLx/photo35.jpg', 'https://i.postimg.cc/4xccrZ5s/photo36.jpg',
+            'https://i.postimg.cc/rpL4Tbn9/photo37.jpg', 'https://i.postimg.cc/FHSS2mZL/photo38.jpg', 'https://i.postimg.cc/KYyTbVqr/photo39.jpg',
+            'https://i.postimg.cc/5tMzJG7K/photo40.jpg', 'https://i.postimg.cc/q7dKrYbS/photo41.jpg', 'https://i.postimg.cc/9ft7QpKx/photo42.jpg',
+            'https://i.postimg.cc/GpJymQVZ/photo43.jpg', 'https://i.postimg.cc/d0myVBgc/photo44.jpg', 'https://i.postimg.cc/jjQ7SXmp/photo45.jpg',
+            'https://i.postimg.cc/9ft7Qps3/photo46.jpg', 'https://i.postimg.cc/bvHtwT4p/photo47.jpg', 'https://i.postimg.cc/k5FbgcLD/photo48.jpg',
+            'https://i.postimg.cc/85prJvVs/photo49.jpg', 'https://i.postimg.cc/0Ndwyfhj/photo50.jpg', 'https://i.postimg.cc/504FYzMt/photo51.jpg',
+            'https://i.postimg.cc/Kz03nYZ9/photo52.jpg', 'https://i.postimg.cc/4dfh7cTh/photo53.jpg', 'https://i.postimg.cc/bJy2Dnjk/photo54.jpg',
+            'https://i.postimg.cc/DZx4qz26/photo55.jpg', 'https://i.postimg.cc/FRTkjK9y/photo56.jpg', 'https://i.postimg.cc/bJmSQvzC/photo57.jpg',
+            'https://i.postimg.cc/XJsBwvVh/photo58.jpg', 'https://i.postimg.cc/SsgYWKSp/photo59.jpg', 'https://i.postimg.cc/nrMjTtrx/photo60.jpg',
+            'https://i.postimg.cc/QCV9Srtv/photo61.jpg', 'https://i.postimg.cc/x8qJgS88/photo62.jpg', 'https://i.postimg.cc/tJ7ZDHJs/photo63.jpg',
+            'https://i.postimg.cc/qqghQdqC/photo64.jpg', 'https://i.postimg.cc/wMPtGbRq/photo65.jpg', 'https://i.postimg.cc/nr5sPw9h/photo66.jpg',
+            'https://i.postimg.cc/Zng9MDvn/photo67.jpg', 'https://i.postimg.cc/KjVKHs34/photo68.jpg', 'https://i.postimg.cc/sx8BN0GM/photo69.jpg',
+            'https://i.postimg.cc/qqYt5Z6n/photo70.jpg', 'https://i.postimg.cc/Bby8VwPB/photo71.jpg', 'https://i.postimg.cc/hvwJ53QV/photo72.jpg',
+            'https://i.postimg.cc/pr79615C/photo73.jpg', 'https://i.postimg.cc/brMGBFSm/photo74.jpg', 'https://i.postimg.cc/T2HW1hN8/photo75.jpg',
+            'https://i.postimg.cc/L40Z5hQt/photo76.jpg', 'https://i.postimg.cc/rF0Rrc7S/photo77.jpg', 'https://i.postimg.cc/J4DHkmSj/photo78.jpg',
+            'https://i.postimg.cc/WbFqkjxd/photo79.jpg', 'https://i.postimg.cc/rFB0G3LH/photo80.jpg', 'https://i.postimg.cc/RVk61yzk/photo81.jpg',
+            'https://i.postimg.cc/qMPhcSTV/photo82.jpg', 'https://i.postimg.cc/ncyjKgJp/photo83.jpg', 'https://i.postimg.cc/7YFG1dkq/photo84.jpg',
+            'https://i.postimg.cc/X7RGKmbJ/photo85.jpg', 'https://i.postimg.cc/fRY38Cz3/photo86.jpg', 'https://i.postimg.cc/N0YKSXFk/photo87.jpg',
+            'https://i.postimg.cc/3x2yt181/photo88.jpg', 'https://i.postimg.cc/cJZv23C9/photo89.jpg', 'https://i.postimg.cc/fbKVNb03/photo90.jpg',
+            'https://i.postimg.cc/q7LNT7Cf/photo91.jpg', 'https://i.postimg.cc/wBV1pBs3/photo92.jpg', 'https://i.postimg.cc/wBV1pBsj/photo93.jpg',
+            'https://i.postimg.cc/tT4YCHh1/photo94.jpg', 'https://i.postimg.cc/9MQrFjGN/photo95.jpg', 'https://i.postimg.cc/xCpqXFR7/photo96.jpg',
+            'https://i.postimg.cc/rmZzDYj6/photo97.jpg', 'https://i.postimg.cc/JnYtsdx8/photo98.jpg', 'https://i.postimg.cc/Kzp41sNH/photo99.jpg',
+            'https://i.postimg.cc/ZRs0WDHb/photo100.jpg', 'https://i.postimg.cc/VvSvnBZw/photo101.jpg', 'https://i.postimg.cc/XqZqdc13/photo102.jpg',
+            'https://i.postimg.cc/8cFcMBXz/photo103.jpg', 'https://i.postimg.cc/x8k8Mypd/photo104.jpg', 'https://i.postimg.cc/rsdsxCZ0/photo105.jpg',
+            'https://i.postimg.cc/brGrkHVn/photo106.jpg', 'https://i.postimg.cc/Zn1RcBX6/photo107.jpg', 'https://i.postimg.cc/hvHjrzNm/photo108.jpg',
+            'https://i.postimg.cc/sxtXcQbP/photo109.jpg', 'https://i.postimg.cc/QCRtb9vm/photo110.jpg', 'https://i.postimg.cc/brKJTD46/photo111.jpg',
+            'https://i.postimg.cc/prgTZh37/photo112.jpg', 'https://i.postimg.cc/2jJVmM3r/photo113.jpg', 'https://i.postimg.cc/59G61Tj4/photo114.jpg',
+            'https://i.postimg.cc/sf8vyq1W/photo115.jpg', 'https://i.postimg.cc/Ghy9pKsP/photo116.jpg', 'https://i.postimg.cc/sDh12mZw/photo117.jpg',
+            'https://i.postimg.cc/Wbkt48Jx/photo118.jpg', 'https://i.postimg.cc/HsyjLz7R/photo119.jpg', 'https://i.postimg.cc/VLC5NgCy/photo120.jpg',
+            'https://i.postimg.cc/KvM4YfMF/photo121.jpg', 'https://i.postimg.cc/x1V8Nmv2/photo122.jpg', 'https://i.postimg.cc/4xRyHc6y/photo123.jpg',
+            'https://i.postimg.cc/GmP2FpKY/photo124.jpg'
+        ];
+
+        // 渲染比赛成片
+        function renderCompetition() {
+            const carousel = document.getElementById('competition-carousel');
+            carousel.innerHTML = projectData.competition.map(project => `
+                <div class="project-card" onclick="openVideo('${project.videoUrl}', '${project.thumbnail}')">
+                    <div class="project-thumbnail">
+                        <img src="${project.thumbnail}" alt="${project.title}">
+                    </div>
+                    <div class="project-info">
+                        <h3>${project.title}</h3>
+                        <p>${project.tag}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 渲染简单轮播
+        function renderSimpleCarousel(containerId, dataArray) {
+            const carousel = document.getElementById(containerId);
+            carousel.innerHTML = dataArray.map(project => `
+                <div class="simple-card" onclick="openVideo('${project.videoUrl}', '${project.thumbnail}')">
+                    <img src="${project.thumbnail}" alt="视频">
+                </div>
+            `).join('');
+        }
+
+        // 打开视频
+        function openVideo(url, posterUrl) {
+            const modal = document.getElementById('videoModal');
+            const content = document.getElementById('videoModalContent');
+            
+            content.innerHTML = `
+                <div class="video-loading">
+                    <img src="${posterUrl}" alt="加载中">
+                    <div class="loading-spinner"></div>
+                </div>
+                <video controls autoplay preload="auto" poster="${posterUrl}" 
+                       style="width:100%; height:100%; object-fit:contain; background:#000;"
+                       oncanplay="this.previousElementSibling.style.display='none'">
+                    <source src="${url}" type="video/mp4">
+                    您的浏览器不支持视频播放
+                </video>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            modal.classList.remove('active');
+            document.getElementById('videoModalContent').innerHTML = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 打开图片网格
+        function openPhotoGrid() {
+            const modal = document.getElementById('photoGridModal');
+            const container = document.getElementById('photoGridContainer');
+            
+            container.innerHTML = photoUrls.map((url, index) => `
+                <div class="grid-item" onclick="openSinglePhoto('${url}'); event.stopPropagation();">
+                    <img src="${url}" alt="照片 ${index + 1}">
+                </div>
+            `).join('');
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoGrid() {
+            document.getElementById('photoGridModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openSinglePhoto(src) {
+            const modal = document.getElementById('videoModal');
+            const content = document.getElementById('videoModalContent');
+            content.innerHTML = `<img src="${src}" style="max-width:100%; max-height:100%; object-fit:contain;">`;
+            modal.classList.add('active');
+            closePhotoGrid();
+        }
+
+        // Modal点击事件
+        function handleModalClick(event) {
+            if (event.target.id === 'videoModal') {
+                closeVideoModal();
+            }
+        }
+
+        function handleGridModalClick(event) {
+            if (event.target.id === 'photoGridModal') {
+                closePhotoGrid();
+            }
+        }
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Header滚动效果
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 初始化
+        window.addEventListener('load', () => {
+            resizeCanvas();
+            createStars();
+            drawStars();
+            animateCursor();
+            
+            renderCompetition();
+            renderSimpleCarousel('commercial-carousel', projectData.commercial);
+            renderSimpleCarousel('wedding-carousel', projectData.wedding);
+            renderSimpleCarousel('daily-carousel', projectData.daily);
+        });
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createStars();
+        });
+
+        // ESC键关闭Modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeVideoModal();
+                closePhotoGrid();
+            }
+        });
+    </script>
+</body>
+</html>
