@@ -86,6 +86,7 @@
 
         ::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #000;
@@ -334,143 +335,255 @@
             letter-spacing: -1px;
         }
 
-        .about-content {
+        /* ========== 关于我布局样式 ========== */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .about-left {
+            position: sticky;
+            top: 120px;
+        }
+
+        .about-right {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-width: 0;
+        }
+
+        .about-info {
             font-size: 15px;
             line-height: 1.8;
             color: var(--secondary-color);
             font-weight: 400;
-            margin-bottom: 60px;
-            max-width: 900px;
+            background: var(--light-grey);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
         }
 
-        .about-content p {
-            margin-bottom: 20px;
+        .about-info p {
+            margin-bottom: 12px;
         }
 
-        .about-content strong {
+        .about-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-info strong {
             color: var(--primary-color);
             font-weight: 600;
         }
 
-        .about-content a {
+        .about-info a {
             color: var(--primary-color);
             text-decoration: none;
             transition: all 0.3s ease;
             border-bottom: 1px solid transparent;
         }
 
-        .about-content a:hover {
+        .about-info a:hover {
             border-bottom-color: var(--primary-color);
         }
 
-        .timeline-horizontal {
-            position: relative;
-            padding: 60px 0;
-            overflow-x: auto;
-            overflow-y: visible;
-            scrollbar-width: thin;
-            scrollbar-color: var(--secondary-color) var(--background-color);
-        }
-
-        .timeline-horizontal::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .timeline-horizontal::-webkit-scrollbar-track {
-            background: var(--background-color);
-            border-radius: 3px;
-        }
-
-        .timeline-horizontal::-webkit-scrollbar-thumb {
-            background: var(--secondary-color);
-            border-radius: 3px;
-        }
-
-        .timeline-track {
-            position: relative;
-            display: flex;
-            gap: 60px;
-            min-width: min-content;
-            padding-bottom: 20px;
-        }
-
-        .timeline-line {
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border-color) 10%, var(--border-color) 90%, transparent);
-        }
-
-        .timeline-item {
-            position: relative;
-            min-width: 320px;
-            padding-top: 50px;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            top: 14px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 12px;
-            height: 12px;
-            background: var(--primary-color);
-            border: 3px solid var(--background-color);
-            border-radius: 50%;
-            box-shadow: 0 0 0 1px var(--border-color);
-            z-index: 2;
-        }
-
-        .timeline-card {
+        /* 专访卡片样式 */
+        .interview-card {
             background: var(--light-grey);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 24px;
-            transition: all 0.3s ease;
-            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: none;
+            text-decoration: none;
+            display: block;
         }
 
-        .timeline-card:hover {
+        .interview-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .interview-card-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+        }
+
+        .interview-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .interview-card:hover .interview-card-image img {
+            transform: scale(1.05);
+        }
+
+        .interview-card-content {
+            padding: 20px;
+        }
+
+        .interview-card-source {
+            font-size: 10px;
+            color: #e63946;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .interview-card-title {
+            font-size: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .interview-card-quote {
+            font-size: 12px;
+            color: var(--secondary-color);
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .interview-card-author {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 工作经历区域 */
+        .experience-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .experience-header h3 {
+            font-size: 18px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .scroll-hint {
+            font-size: 11px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .scroll-hint::after {
+            content: '→';
+            animation: scrollHint 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scrollHint {
+            0%, 100% { transform: translateX(0); opacity: 0.5; }
+            50% { transform: translateX(5px); opacity: 1; }
+        }
+
+        /* 时间轴滚动容器 */
+        .timeline-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: visible;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: #555 #1a1a1a;
+        }
+
+        .timeline-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .timeline-scroll-container::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+
+        .timeline-scroll-container::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+
+        .timeline-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #777;
+        }
+
+        .timeline-track-horizontal {
+            display: inline-flex;
+            gap: 20px;
+            padding: 10px 5px;
+        }
+
+        .timeline-card-item {
+            width: 260px;
+            flex-shrink: 0;
+            background: var(--light-grey);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-card-item:hover {
             background: var(--medium-grey);
             border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-4px);
         }
 
-        .timeline-date {
+        .timeline-card-item .date {
             font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4);
             letter-spacing: 0.1em;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: 500;
             text-transform: uppercase;
         }
 
-        .timeline-title {
-            font-size: 18px;
+        .timeline-card-item .title {
+            font-size: 15px;
             color: var(--primary-color);
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .timeline-subtitle {
-            font-size: 13px;
+        .timeline-card-item .subtitle {
+            font-size: 12px;
             color: var(--secondary-color);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-style: italic;
         }
 
-        .timeline-desc {
-            font-size: 13px;
+        .timeline-card-item .desc {
+            font-size: 12px;
             color: var(--secondary-color);
             line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .cv-download-btn {
+        .cv-btn-inline {
             display: inline-block;
-            margin-top: 40px;
-            padding: 14px 36px;
+            padding: 12px 28px;
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: var(--primary-color);
@@ -480,14 +593,43 @@
             font-weight: 500;
             transition: all 0.3s ease;
             cursor: none;
+            align-self: flex-start;
         }
 
-        .cv-download-btn:hover {
+        .cv-btn-inline:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--primary-color);
             transform: translateY(-2px);
         }
 
+        @media (max-width: 1024px) {
+            .about-layout {
+                grid-template-columns: 300px 1fr;
+                gap: 30px;
+            }
+            
+            .timeline-card-item {
+                width: 230px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-left {
+                position: static;
+                max-width: 340px;
+                margin: 0 auto;
+            }
+            
+            .timeline-card-item {
+                width: 240px;
+            }
+        }
+
+        /* ========== 作品集样式 ========== */
         .category-wrapper {
             margin-bottom: 100px;
         }
@@ -703,6 +845,7 @@
             transform: scale(1.05);
         }
 
+        /* Modal 样式 */
         .modal {
             display: none;
             position: fixed;
@@ -921,10 +1064,6 @@
             .simple-card {
                 flex: 0 0 340px;
             }
-
-            .timeline-item {
-                min-width: 280px;
-            }
         }
 
         @media (max-width: 768px) {
@@ -979,10 +1118,6 @@
                 padding: 0 20px;
                 margin-top: 100px;
             }
-
-            .timeline-item {
-                min-width: 240px;
-            }
         }
     </style>
 </head>
@@ -1012,7 +1147,7 @@
                 </div>
             </div>
             <a href="mailto:546331364@qq.com">联系我</a>
-            <a href="liuyang.CV.pdf" download class="resume-btn">下载简历</a>
+            <a href="assets/liuyang.CV.pdf" download class="resume-btn">下载简历</a>
         </nav>
     </header>
 
@@ -1039,82 +1174,86 @@
             <div class="right">关于我</div>
         </div>
         
-        <div class="about-content">
-            <p><strong>教育背景:</strong>湖北经济学院 · 电子信息工程(本科) · 2022.9 - 至今</p>
-            <p><strong>当前职位:</strong>漫格电影工作室 · 总监档摄影师 · 2025 - 至今</p>
-            <p><strong>核心技能:</strong>达芬奇 · FCP · Premiere Pro · Photoshop · Lightroom · 导演 · 摄影 · 剪辑 · 调色 · 多机位直播</p>
-            <p><strong>联系方式:</strong>电话 17786106703 · 邮箱 <a href="mailto:546331364@qq.com">546331364@qq.com</a></p>
-        </div>
-
-        <h3 style="font-size: 22px; color: var(--primary-color); margin-bottom: 40px; font-weight: 600;">工作经历</h3>
-        
-        <div class="timeline-horizontal">
-            <div class="timeline-line"></div>
-            <div class="timeline-track">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="timeline-date">2025 - 至今</div>
-                        <div class="timeline-title">漫格电影工作室</div>
-                        <div class="timeline-subtitle">总监档摄影师</div>
-                        <div class="timeline-desc">对接湖滨客舍、东湖宾馆、洪山宾馆等一线酒店婚礼拍摄需求,提供从创意策划到成品交付的一站式影像服务,精准捕捉品牌调性,作品获客户高度认可与复购。</div>
+        <div class="about-layout">
+            <!-- 左侧：专访卡片 -->
+            <div class="about-left">
+                <a href="https://www.chinadaily.com.cn/a/202511/26/WS6926be2da310d6866eb2b89b.html" target="_blank" class="interview-card">
+                    <div class="interview-card-image">
+                        <img src="https://i.postimg.cc/vZk68HzT/image.png" alt="China Daily Interview">
                     </div>
+                    <div class="interview-card-content">
+                        <div class="interview-card-source">China Daily · 专访</div>
+                        <div class="interview-card-title">Microfilms spark young bonds across the Strait</div>
+                        <div class="interview-card-quote">"I'm usually more reserved. But seeing their sincerity and dedication encourage me to take a bolder, more expressive approach in my own creative work."</div>
+                        <div class="interview-card-author">— Liu Yang, Hubei University of Economics</div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 右侧：技能+工作经历 -->
+            <div class="about-right">
+                <!-- 技能信息 -->
+                <div class="about-info">
+                    <p><strong>核心技能:</strong> 达芬奇 · FCP · Premiere Pro · Photoshop · Lightroom · 导演 · 摄影 · 剪辑 · 调色 · 多机位直播</p>
+                    <p><strong>联系方式:</strong> 电话 17786106703 · 邮箱 <a href="mailto:546331364@qq.com">546331364@qq.com</a></p>
                 </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="timeline-date">2025.8 - 2025.9</div>
-                        <div class="timeline-title">湖北文旅集团宜昌集团</div>
-                        <div class="timeline-subtitle">视频导演</div>
-                        <div class="timeline-desc">全权负责集团宣传片的创意策划、脚本撰写、现场拍摄与后期剪辑,深入挖掘宜昌文旅资源特色,作品通过内部多层评审,在总部官网、公众号等全平台发布。</div>
+                
+                <!-- 工作经历 -->
+                <div class="experience-section">
+                    <div class="experience-header">
+                        <h3>工作经历</h3>
+                        <span class="scroll-hint">左右滑动查看更多</span>
                     </div>
-                </div>
+                    
+                    <div class="timeline-scroll-container">
+                        <div class="timeline-track-horizontal">
+                            <div class="timeline-card-item">
+                                <div class="date">2022 - 至今</div>
+                                <div class="title">漫格电影工作室</div>
+                                <div class="subtitle">总监档摄影师</div>
+                                <div class="desc">对接湖滨客舍、东湖宾馆、洪山宾馆等一线酒店婚礼拍摄需求,提供从创意策划到成品交付的一站式影像服务。</div>
+                            </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="timeline-date">2024.7 - 2024.8</div>
-                        <div class="timeline-title">人民日报·数字湖北</div>
-                        <div class="timeline-subtitle">视频组干事</div>
-                        <div class="timeline-desc">协助抖音号、公众号日常运营,负责视频选题策划与拍摄制作。</div>
-                    </div>
-                </div>
+                            <div class="timeline-card-item">
+                                <div class="date">2025.8 - 2025.9</div>
+                                <div class="title">湖北文旅集团宜昌集团</div>
+                                <div class="subtitle">视频导演</div>
+                                <div class="desc">全权负责集团宣传片的创意策划、脚本撰写、现场拍摄与后期剪辑,作品在总部官网、公众号等全平台发布。</div>
+                            </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="timeline-date">2024.5 - 2024.6</div>
-                        <div class="timeline-title">上汽大众</div>
-                        <div class="timeline-subtitle">"40年40城"湖北地区导演</div>
-                        <div class="timeline-desc">主导品牌40周年宣传片黄石篇、荆州篇制作,深入调研两地人文风貌与工业特色,打造差异化视觉内容,通过镜头语言传递品牌历史积淀与创新精神。</div>
-                    </div>
-                </div>
+                            <div class="timeline-card-item">
+                                <div class="date">2024.7 - 2024.8</div>
+                                <div class="title">人民日报·数字湖北</div>
+                                <div class="subtitle">视频组干事</div>
+                                <div class="desc">协助抖音号、公众号日常运营,负责视频选题策划与拍摄制作。</div>
+                            </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="timeline-date">2024.1 - 2024.3</div>
-                        <div class="timeline-title">阿曼朵民族旅拍</div>
-                        <div class="timeline-subtitle">主拍摄影师</div>
-                        <div class="timeline-desc">担任福州门店主拍,聚焦畲族等民族特色旅拍风格,结合当地自然风光与民俗文化设计拍摄方案,作品长期位居平台旅拍类榜单前列,带动门店客单量提升。</div>
-                    </div>
-                </div>
+                            <div class="timeline-card-item">
+                                <div class="date">2024.5 - 2024.6</div>
+                                <div class="title">上汽大众</div>
+                                <div class="subtitle">"40年40城"湖北地区导演</div>
+                                <div class="desc">主导品牌40周年宣传片黄石篇、荆州篇制作,通过镜头语言传递品牌历史积淀与创新精神。</div>
+                            </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="timeline-date">2022.5 - 2022.6</div>
-                        <div class="timeline-title">东风猛士</div>
-                        <div class="timeline-subtitle">湖北地区导演</div>
-                        <div class="timeline-desc">独立完成湖北地区宣传片全流程制作,结合品牌硬核属性与地域文化特点,运用多场景航拍、特写镜头组合呈现产品优势,成片获品牌方高度认可。</div>
+                            <div class="timeline-card-item">
+                                <div class="date">2024.1 - 2024.3</div>
+                                <div class="title">阿曼朵民族旅拍</div>
+                                <div class="subtitle">主拍摄影师</div>
+                                <div class="desc">担任福州门店主拍,聚焦畲族等民族特色旅拍风格,作品长期位居平台旅拍类榜单前列。</div>
+                            </div>
+
+                            <div class="timeline-card-item">
+                                <div class="date">2022.5 - 2022.6</div>
+                                <div class="title">东风猛士</div>
+                                <div class="subtitle">湖北地区导演</div>
+                                <div class="desc">独立完成湖北地区宣传片全流程制作,运用多场景航拍、特写镜头组合呈现产品优势。</div>
+                            </div>
+                        </div>
                     </div>
+                    
+                    <a href="assets/liuyang.CV.pdf" download class="cv-btn-inline">下载完整简历</a>
                 </div>
             </div>
-        </div>
-
-        <div style="text-align: center;">
-            <a href="liuyang.CV.pdf" download class="cv-download-btn">下载完整简历</a>
         </div>
     </section>
 
@@ -1128,7 +1267,7 @@
         <!-- 比赛成片 -->
         <div id="competition" class="category-wrapper">
             <div class="category-header">
-                <h2>比赛成片</h2>
+                <h2>获奖作品</h2>
                 <span>Competition</span>
             </div>
             <div class="project-carousel" id="competition-carousel"></div>
@@ -1155,7 +1294,7 @@
         <!-- 日常视频 -->
         <div id="daily" class="category-wrapper">
             <div class="category-header">
-                <h2>日常视频作品</h2>
+                <h2>日常创作</h2>
                 <span>Daily Videos</span>
             </div>
             <div class="project-carousel" id="daily-carousel"></div>
@@ -1284,11 +1423,13 @@
             mouseY = e.clientY + window.scrollY;
         });
 
-        const interactables = document.querySelectorAll('a, button, .project-card, .simple-card, .stacked-card, .grid-item, .close-btn');
-        interactables.forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
+        function updateHoverListeners() {
+            const interactables = document.querySelectorAll('a, button, .project-card, .simple-card, .stacked-card, .grid-item, .close-btn, .timeline-card-item, .interview-card');
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            });
+        }
 
         function animateCursor() {
             cursorDot.style.left = `${cursorX}px`;
@@ -1307,10 +1448,10 @@
         const projectData = {
             competition: [
                 {
-                    title: '萝卜快跑',
-                    tag: '2025金飞燕海峡两岸创作营第一名',
-                    thumbnail: 'https://i.postimg.cc/xjWpHjc2/feng-mian1.png',
-                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/1%E8%90%9D%E5%8D%9C%E5%BF%AB%E8%B7%91%E8%B7%91.mp4'
+                    title: '托举',
+                    tag: '2025金飞燕微电影铜飞燕奖',
+                    thumbnail: 'https://i.postimg.cc/BQHYCWKX/feng-mian4.png',
+                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/4%E6%89%98%E4%B8%BE4k60%E6%88%90%E7%89%87.mp4'
                 },
                 {
                     title: '宇树机器人',
@@ -1325,17 +1466,17 @@
                     videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/3%E5%A3%B0%E9%9F%B34k60.mp4'
                 },
                 {
-                    title: '托举',
-                    tag: '2025金飞燕微电影铜飞燕奖',
-                    thumbnail: 'https://i.postimg.cc/BQHYCWKX/feng-mian4.png',
-                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/4%E6%89%98%E4%B8%BE4k60%E6%88%90%E7%89%87.mp4'
-                },
-                {
                     title: '视界之外',
                     tag: '金飞燕海峡两岸微电影大赛入围',
                     thumbnail: 'https://i.postimg.cc/HsXZtGyj/feng-mian5.png',
                     videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/5%E8%A7%86%E7%95%8C%E4%B9%8B%E5%A4%96.mp4'
-                }
+                },
+                {
+                    title: '萝卜快跑',
+                    tag: '2025金飞燕海峡两岸创作营第一名',
+                    thumbnail: 'https://i.postimg.cc/xjWpHjc2/feng-mian1.png',
+                    videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/1%E8%90%9D%E5%8D%9C%E5%BF%AB%E8%B7%91%E8%B7%91.mp4'
+                },
             ],
             commercial: [
                 { thumbnail: 'https://i.postimg.cc/KvBq5XMt/feng-mian6.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/6%E9%BE%99%E8%88%9F4K%E8%B6%85%E6%B8%85.mp4' },
@@ -1348,31 +1489,31 @@
             wedding: [
                 { thumbnail: 'https://i.postimg.cc/y8TLwFnZ/feng-mian12.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC1-2025.10.6%E6%B4%AA%E6%B9%96%E9%87%91%E6%B9%BE%20%E6%AD%A3%E7%89%87.mov' },
                 { thumbnail: 'https://i.postimg.cc/7ZNKpgX3/feng-mian13.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC3-2025.10.6%E5%A9%9A%E7%A4%BC%E9%A2%84%E5%91%8A.mp4' },
-                { thumbnail: 'https://i.postimg.cc/s2DTyv0m/feng-mian14.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC4-%E6%A5%9A%E5%A4%A9%E7%B2%A4%E6%B5%B7.mp4' },
-                { thumbnail: 'https://i.postimg.cc/QMxfsHnY/feng-mian15.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC5-IMG_5109.mp4' },
-                { thumbnail: 'https://i.postimg.cc/mr2mRt6v/feng-mian16.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC5-IMG_5109.mp4' }
+                { thumbnail: 'https://i.postimg.cc/s2DTyv0m/feng-mian14.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC2-2025.10.6%E6%B4%AA%E6%B9%96%E9%87%91%E6%B9%BE%E5%A9%9A%E7%A4%BC%E5%85%A8%E7%A8%8B%E8%AE%B0%E5%BD%95.mp4' },
+                { thumbnail: 'https://i.postimg.cc/FHsQfr7D/image.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC4-%E6%A5%9A%E5%A4%A9%E7%B2%A4%E6%B5%B7.mp4'},
+                { thumbnail: 'https://i.postimg.cc/R053kC4c/image.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E5%A9%9A%E7%A4%BC5-IMG_5109.mp4' }
             ],
             daily: [
-                { thumbnail: 'https://i.postimg.cc/FKWDKN22/feng-mian17.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B81-1%E6%9C%8813%E6%97%A5.mov' },
-                { thumbnail: 'https://i.postimg.cc/fb2BbDGJ/feng-mian18.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B82-1%E6%9C%8813%E6%97%A5%281%29.mov' },
-                { thumbnail: 'https://i.postimg.cc/YSnbSM52/feng-mian19.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B83-1%E6%9C%8813%E6%97%A5%282%29.mov' },
-                { thumbnail: 'https://i.postimg.cc/QtFS9vDs/feng-mian20.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B84-1%E6%9C%8813%E6%97%A5%283%29.mov' },
-                { thumbnail: 'https://i.postimg.cc/nzXTjNxF/feng-mian21.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B85-3%E6%9C%884%E6%97%A5%283%29.mp4' },
+                { thumbnail: 'https://i.postimg.cc/x8CZPRzD/feng-mian1.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B811-%E9%BE%99%E8%88%9F1.mp4' },
+                { thumbnail: 'https://i.postimg.cc/J4sgDp8H/feng-mian2.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B810-%E7%BB%8F%E5%B9%A1%E9%A2%84%E5%91%8A.mp4' },
+                { thumbnail: 'https://i.postimg.cc/YqvVGd7m/feng-mian3.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B81-1%E6%9C%8813%E6%97%A5.mov' },
+                { thumbnail: 'https://i.postimg.cc/pXm7hsvz/feng-mian4.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B83-1%E6%9C%8813%E6%97%A5%282%29.mov'},
+                { thumbnail: 'https://i.postimg.cc/ZKWgBwm6/feng-mian5.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B82-1%E6%9C%8813%E6%97%A5%281%29.mov' },
                 { thumbnail: 'https://i.postimg.cc/qRNQhWr6/feng-mian22.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B86-6%E6%9C%8818%E6%97%A5.mp4' },
                 { thumbnail: 'https://i.postimg.cc/261TbgYw/feng-mian23.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B87-7%E6%9C%8831%E6%97%A5%281%29.mp4' },
                 { thumbnail: 'https://i.postimg.cc/Zn3cj30Q/feng-mian24.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B88-%E6%88%90%E7%89%874K30%E7%A7%92.mp4' },
                 { thumbnail: 'https://i.postimg.cc/JnSxbK75/feng-mian25.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B89-%E6%94%B9%E5%8D%81.mp4' },
-                { thumbnail: 'https://i.postimg.cc/4djPzwNZ/feng-mian26.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B810-%E7%BB%8F%E5%B9%A1%E9%A2%84%E5%91%8A.mp4' },
-                { thumbnail: 'https://i.postimg.cc/85x4hwPg/feng-mian27.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B811-%E9%BE%99%E8%88%9F1.mp4' }
+                { thumbnail: 'https://i.postimg.cc/QtFS9vDs/feng-mian20.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B84-1%E6%9C%8813%E6%97%A5%283%29.mov' },
+                { thumbnail: 'https://i.postimg.cc/nzXTjNxF/feng-mian21.png', videoUrl: 'http://t93s21e2r.hn-bkt.clouddn.com/%E6%97%A5%E5%B8%B85-3%E6%9C%884%E6%97%A5%283%29.mp4' }
             ]
         };
 
-        // 图片数据(124张,按数字顺序)
+        // 图片数据
         const photoUrls = [
-            'https://i.postimg.cc/9MYtsVct/photo1.jpg', 'https://i.postimg.cc/8P0d2ZVQ/photo2.jpg', 'https://i.postimg.cc/dt1mNzpB/photo3.jpg',
-            'https://i.postimg.cc/HnS0s2cj/photo4.jpg', 'https://i.postimg.cc/dt1mNzp8/photo5.jpg', 'https://i.postimg.cc/sDNPkTCZ/photo6.jpg',
-            'https://i.postimg.cc/65mVkMxM/photo7.jpg', 'https://i.postimg.cc/Vk09mXYz/photo8.jpg', 'https://i.postimg.cc/TP8Vwhw1/photo9.jpg',
-            'https://i.postimg.cc/yNFFSBgt/photo10.jpg', 'https://i.postimg.cc/TPrrWGLz/photo11.jpg', 'https://i.postimg.cc/s2ppZyGR/photo12.jpg',
+            'https://i.postimg.cc/rF0Rrc7S/photo77.jpg', 'https://i.postimg.cc/J4DHkmSj/photo78.jpg','https://i.postimg.cc/WbFqkjxd/photo79.jpg',
+             'https://i.postimg.cc/rFB0G3LH/photo80.jpg', 'https://i.postimg.cc/RVk61yzk/photo81.jpg','https://i.postimg.cc/qMPhcSTV/photo82.jpg', 
+            'https://i.postimg.cc/ncyjKgJp/photo83.jpg', 'https://i.postimg.cc/7YFG1dkq/photo84.jpg','https://i.postimg.cc/X7RGKmbJ/photo85.jpg', 
+            'https://i.postimg.cc/3x2yt181/photo88.jpg', 'https://i.postimg.cc/cJZv23C9/photo89.jpg', 'https://i.postimg.cc/fbKVNb03/photo90.jpg',
             'https://i.postimg.cc/Xvwwy3GD/photo13.jpg', 'https://i.postimg.cc/NMBR6VRw/photo14.jpg', 'https://i.postimg.cc/26Gh2wxQ/photo15.jpg',
             'https://i.postimg.cc/854MtHbZ/photo16.jpg', 'https://i.postimg.cc/j5cPZXhv/photo17.jpg', 'https://i.postimg.cc/63cnY0hj/photo18.jpg',
             'https://i.postimg.cc/XJLdQ8gt/photo19.jpg', 'https://i.postimg.cc/x8dH7zsp/photo20.jpg', 'https://i.postimg.cc/nrL75Dd6/photo21.jpg',
@@ -1391,14 +1532,10 @@
             'https://i.postimg.cc/XJsBwvVh/photo58.jpg', 'https://i.postimg.cc/SsgYWKSp/photo59.jpg', 'https://i.postimg.cc/nrMjTtrx/photo60.jpg',
             'https://i.postimg.cc/QCV9Srtv/photo61.jpg', 'https://i.postimg.cc/x8qJgS88/photo62.jpg', 'https://i.postimg.cc/tJ7ZDHJs/photo63.jpg',
             'https://i.postimg.cc/qqghQdqC/photo64.jpg', 'https://i.postimg.cc/wMPtGbRq/photo65.jpg', 'https://i.postimg.cc/nr5sPw9h/photo66.jpg',
-            'https://i.postimg.cc/Zng9MDvn/photo67.jpg', 'https://i.postimg.cc/KjVKHs34/photo68.jpg', 'https://i.postimg.cc/sx8BN0GM/photo69.jpg',
+            'https://i.postimg.cc/Zng9MDvn/photo67.jpg', 'https://i.postimg.cc/KjVKHs34/photo68.jpg','https://i.postimg.cc/GmP2FpKY/photo124.jpg',
             'https://i.postimg.cc/qqYt5Z6n/photo70.jpg', 'https://i.postimg.cc/Bby8VwPB/photo71.jpg', 'https://i.postimg.cc/hvwJ53QV/photo72.jpg',
             'https://i.postimg.cc/pr79615C/photo73.jpg', 'https://i.postimg.cc/brMGBFSm/photo74.jpg', 'https://i.postimg.cc/T2HW1hN8/photo75.jpg',
-            'https://i.postimg.cc/L40Z5hQt/photo76.jpg', 'https://i.postimg.cc/rF0Rrc7S/photo77.jpg', 'https://i.postimg.cc/J4DHkmSj/photo78.jpg',
-            'https://i.postimg.cc/WbFqkjxd/photo79.jpg', 'https://i.postimg.cc/rFB0G3LH/photo80.jpg', 'https://i.postimg.cc/RVk61yzk/photo81.jpg',
-            'https://i.postimg.cc/qMPhcSTV/photo82.jpg', 'https://i.postimg.cc/ncyjKgJp/photo83.jpg', 'https://i.postimg.cc/7YFG1dkq/photo84.jpg',
-            'https://i.postimg.cc/X7RGKmbJ/photo85.jpg', 'https://i.postimg.cc/fRY38Cz3/photo86.jpg', 'https://i.postimg.cc/N0YKSXFk/photo87.jpg',
-            'https://i.postimg.cc/3x2yt181/photo88.jpg', 'https://i.postimg.cc/cJZv23C9/photo89.jpg', 'https://i.postimg.cc/fbKVNb03/photo90.jpg',
+            'https://i.postimg.cc/L40Z5hQt/photo76.jpg', 'https://i.postimg.cc/fRY38Cz3/photo86.jpg', 'https://i.postimg.cc/N0YKSXFk/photo87.jpg',
             'https://i.postimg.cc/q7LNT7Cf/photo91.jpg', 'https://i.postimg.cc/wBV1pBs3/photo92.jpg', 'https://i.postimg.cc/wBV1pBsj/photo93.jpg',
             'https://i.postimg.cc/tT4YCHh1/photo94.jpg', 'https://i.postimg.cc/9MQrFjGN/photo95.jpg', 'https://i.postimg.cc/xCpqXFR7/photo96.jpg',
             'https://i.postimg.cc/rmZzDYj6/photo97.jpg', 'https://i.postimg.cc/JnYtsdx8/photo98.jpg', 'https://i.postimg.cc/Kzp41sNH/photo99.jpg',
@@ -1410,7 +1547,10 @@
             'https://i.postimg.cc/sf8vyq1W/photo115.jpg', 'https://i.postimg.cc/Ghy9pKsP/photo116.jpg', 'https://i.postimg.cc/sDh12mZw/photo117.jpg',
             'https://i.postimg.cc/Wbkt48Jx/photo118.jpg', 'https://i.postimg.cc/HsyjLz7R/photo119.jpg', 'https://i.postimg.cc/VLC5NgCy/photo120.jpg',
             'https://i.postimg.cc/KvM4YfMF/photo121.jpg', 'https://i.postimg.cc/x1V8Nmv2/photo122.jpg', 'https://i.postimg.cc/4xRyHc6y/photo123.jpg',
-            'https://i.postimg.cc/GmP2FpKY/photo124.jpg'
+            'https://i.postimg.cc/9MYtsVct/photo1.jpg', 'https://i.postimg.cc/8P0d2ZVQ/photo2.jpg', 'https://i.postimg.cc/dt1mNzpB/photo3.jpg',
+            'https://i.postimg.cc/HnS0s2cj/photo4.jpg', 'https://i.postimg.cc/dt1mNzp8/photo5.jpg', 'https://i.postimg.cc/sDNPkTCZ/photo6.jpg',
+            'https://i.postimg.cc/65mVkMxM/photo7.jpg', 'https://i.postimg.cc/Vk09mXYz/photo8.jpg', 'https://i.postimg.cc/TP8Vwhw1/photo9.jpg',
+            'https://i.postimg.cc/yNFFSBgt/photo10.jpg', 'https://i.postimg.cc/TPrrWGLz/photo11.jpg', 'https://i.postimg.cc/s2ppZyGR/photo12.jpg',
         ];
 
         // 渲染比赛成片
@@ -1481,6 +1621,9 @@
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // 更新hover监听器
+            setTimeout(updateHoverListeners, 100);
         }
 
         function closePhotoGrid() {
@@ -1539,6 +1682,7 @@
             createStars();
             drawStars();
             animateCursor();
+            updateHoverListeners();
             
             renderCompetition();
             renderSimpleCarousel('commercial-carousel', projectData.commercial);
